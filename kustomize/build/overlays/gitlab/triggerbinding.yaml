@@ -1,0 +1,16 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: sample-argocd-app-trigger-binding
+spec:
+  params:
+    - name: git-app-rev
+      value: $(body.head_commit.id)
+    - name: git-app-url
+      value: 'https://github.com/Red-Hat-Developer-Hub/sample-argocd-app-app'
+    - name: git-manifests-url
+      value: 'https://github.com/Red-Hat-Developer-Hub/sample-argocd-app-manifest'
+    - name: git-user
+      value: $(body.user_username) 
+    - name: git-email
+      value: $(body.user_email) 

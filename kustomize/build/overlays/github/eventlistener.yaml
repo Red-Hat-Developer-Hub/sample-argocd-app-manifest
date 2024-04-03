@@ -1,0 +1,22 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: sample-argocd-app-listener
+spec:
+  serviceAccountName: trigger-sa 
+  triggers:
+    - bindings:
+        - ref: sample-argocd-app-trigger-binding
+      template:
+        ref: sample-argocd-app-pipeline-template
+      interceptors:
+      - ref:
+          name: github
+          kind: ClusterInterceptor
+        params:
+        - name: "secretRef"
+          value:
+            secretName: github-webhooksecret
+            secretKey: webhook_secret
+        - name: "eventTypes"
+          value: ["push"]
